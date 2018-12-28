@@ -4,12 +4,10 @@
 
 ## Usage
 
-Via npx:
-
 ```bash
 npx mrtarantula
 ```
 
 ## Credits
 
-Forked from Tierney Cyren's https://github.com/bnb/bitandbang
+Forked from [bnb/bitandbang](https://github.com/bnb/bitandbang).

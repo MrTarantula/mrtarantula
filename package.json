@@ -1,6 +1,6 @@
 {
   "name": "mrtarantula",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "A personal card for Ryan Tauriainen (@mrtarantula)",
   "main": "/bin/card.js",
   "bin": {
@@ -14,7 +14,6 @@
     "prepublish": "npm run build",
     "build": "node build.js",
     "dev": "npm run build && node ./bin/card.js",
-    "lint": "standard",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -33,7 +32,6 @@
   ],
   "devDependencies": {
     "carden": "^2.0.0",
-    "chalk": "^2.4.1",
-    "standard": "^12.0.1"
+    "chalk": "^2.4.1"
   }
 }

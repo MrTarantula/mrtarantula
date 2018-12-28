@@ -1,6 +1,5 @@
 'use strict';
 
-// Pull in our modules
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
@@ -14,67 +13,67 @@ const colors = {
   label: 'black',
 };
 
-// User data
+// Data
 const data = {
   name: 'Ryan Tauriainen',
   handle: 'MrTarantula',
   work: 'Web Developer at APMEX',
-  twitter: 'https://twitter.com/ryantarantula',
-  github: 'https://github.com/mrtarantula',
-  linkedin: 'https://linkedin.com/in/ryantauriainen',
+  twitter: 'ryantarantula',
+  github: 'mrtarantula',
+  npm: '~mrtarantula',
+  linkedin: 'ryantauriainen',
   web: 'https://ryant.io',
   npx: 'npx mrtarantula',
-};
-
-// Coloring functions
-const primary = x => chalk.keyword(colors.primary)(x);
-const secondary = x => chalk.keyword(colors.secondary)(x);
-const tertiary = x => chalk.keyword(colors.tertiary)(x);
-const label = x => chalk.keyword(colors.label).bold(x);
-
-// Define options for carden
-const options = {
-  padding: 1,
-  margin: 1,
-  header: {
-    borderStyle: 'round',
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-  },
-  content: {
-    borderColor: colors.tertiary,
-    backgroundColor: colors.secondary,
-  }
 };
 
 // Labels
 const labels = {
   work: '      Work:',
   twitter: '   Twitter:',
-  gitHub: '    GitHub:',
-  linkedIn: '  LinkedIn:',
+  github: '    GitHub:',
+  npm: '       npm:',
+  linkedin: '  LinkedIn:',
   web: '       Web:',
-  card: '      Card:',
+  npx: '      Card:',
 }
 
-// Actual strings we're going to output
+// Theming functions
+const primary = x => chalk.keyword(colors.primary)(x);
+const secondary = x => chalk.keyword(colors.secondary)(x);
+const tertiary = x => chalk.keyword(colors.tertiary)(x);
+const label = x => chalk.keyword(colors.label).bold(x);
+
+// Options for carden
+const options = {
+  borderStyle: {
+    topLeft: ' ',
+    topRight: ' ',
+    bottomLeft: ' ',
+    bottomRight: ' ',
+    horizontal: ' ',
+    vertical: ' '
+  },
+  margin: 1,
+  padding: 1,
+  header: {
+    backgroundColor: colors.primary,
+  },
+  content: {
+    backgroundColor: colors.secondary,
+  }
+};
+
 const header = `${secondary(data.name)} / ${tertiary(data.handle)}`;
 
-const working = `${label(labels.work)}  ${label(data.work)}\n`;
-const twittering = `${label(labels.twitter)}  ${primary(data.twitter)}\n`;
-const githubing = `${label(labels.gitHub)}  ${primary(data.github)}\n`;
-const linkedining = `${label(labels.linkedIn)}  ${primary(data.linkedin)}\n`;
-const webing = `${label(labels.web)}  ${primary(data.web)}\n`;
-const carding = `${label(labels.card)}  ${primary(data.npx)}\n`;
+const content = [
+  `${label(labels.work)}  ${label(data.work)}`,
+  `${label(labels.twitter)}  ${primary('https://twitter.com/' + data.twitter)}`,
+  `${label(labels.github)}  ${primary('https://github.com/' + data.github)}`,
+  `${label(labels.npm)}  ${primary('https://npmjs.com/' + data.npm)}`,
+  `${label(labels.linkedin)}  ${primary('https://linkedin.com/in/' + data.linkedin)}`,
+  `${label(labels.web)}  ${primary(data.web)}`,
+  ``,
+  `${label(labels.npx)}  ${primary(data.npx)}`
+];
 
-// Put all our output together into a single variable
-const content =
-  working +
-  twittering +
-  githubing +
-  linkedining +
-  webing +
-  '\n' +
-  carding;
-
-fs.writeFileSync(path.join(__dirname, 'bin/output'), carden(header, content, options));
+fs.writeFileSync(path.join(__dirname, 'bin/output'), carden(header, content.join('\n'), options));
