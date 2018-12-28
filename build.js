@@ -1,62 +1,80 @@
-'use strict'
+'use strict';
 
 // Pull in our modules
-const chalk = require('chalk')
-const boxen = require('boxen')
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
+const chalk = require('chalk');
+const carden = require('carden');
 
-// Define options for Boxen
+// Theme
+const colors = {
+  primary: 'blue',
+  secondary: 'white',
+  tertiary: 'green',
+  label: 'black',
+};
+
+// User data
+const data = {
+  name: 'Ryan Tauriainen',
+  handle: 'MrTarantula',
+  work: 'Web Developer at APMEX',
+  twitter: 'https://twitter.com/ryantarantula',
+  github: 'https://github.com/mrtarantula',
+  linkedin: 'https://linkedin.com/in/ryantauriainen',
+  web: 'https://ryant.io',
+  npx: 'npx mrtarantula',
+};
+
+// Coloring functions
+const primary = x => chalk.keyword(colors.primary)(x);
+const secondary = x => chalk.keyword(colors.secondary)(x);
+const tertiary = x => chalk.keyword(colors.tertiary)(x);
+const label = x => chalk.keyword(colors.label).bold(x);
+
+// Define options for carden
 const options = {
   padding: 1,
   margin: 1,
-  borderStyle: 'round'
-}
+  header: {
+    borderStyle: 'round',
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  content: {
+    borderColor: colors.tertiary,
+    backgroundColor: colors.secondary,
+  }
+};
 
-// Text + chalk definitions
-const data = {
-  name: chalk.white('               Tierney Cyren'),
-  handle: chalk.white('bitandbang'),
-  work: chalk.white('Senior Cloud Developer Advocate at Microsoft'),
-  opensource: chalk.white('Node.js Community Committee ') + chalk.green('⬢'),
-  twitter: chalk.gray('https://twitter.com/') + chalk.cyan('bitandbang'),
-  npm: chalk.gray('https://npmjs.com/') + chalk.red('~bnb'),
-  github: chalk.gray('https://github.com/') + chalk.green('bnb'),
-  linkedin: chalk.gray('https://linkedin.com/in/') + chalk.blue('bitandbang'),
-  web: chalk.cyan('https://bnb.im'),
-  npx: chalk.red('npx') + ' ' + chalk.white('bitandbang'),
-  labelWork: chalk.white.bold('       Work:'),
-  labelOpenSource: chalk.white.bold('Open Source:'),
-  labelTwitter: chalk.white.bold('    Twitter:'),
-  labelnpm: chalk.white.bold('        npm:'),
-  labelGitHub: chalk.white.bold('     GitHub:'),
-  labelLinkedIn: chalk.white.bold('   LinkedIn:'),
-  labelWeb: chalk.white.bold('        Web:'),
-  labelCard: chalk.white.bold('       Card:')
+// Labels
+const labels = {
+  work: '      Work:',
+  twitter: '   Twitter:',
+  gitHub: '    GitHub:',
+  linkedIn: '  LinkedIn:',
+  web: '       Web:',
+  card: '      Card:',
 }
 
 // Actual strings we're going to output
-const newline = '\n'
-const heading = `${data.name} / ${data.handle}`
-const working = `${data.labelWork}  ${data.work}`
-const opensourcing = `${data.labelOpenSource}  ${data.opensource}`
-const twittering = `${data.labelTwitter}  ${data.twitter}`
-const npming = `${data.labelnpm}  ${data.npm}`
-const githubing = `${data.labelGitHub}  ${data.github}`
-const linkedining = `${data.labelLinkedIn}  ${data.linkedin}`
-const webing = `${data.labelWeb}  ${data.web}`
-const carding = `${data.labelCard}  ${data.npx}`
+const header = `${secondary(data.name)} / ${tertiary(data.handle)}`;
 
-// Put all our output together into a single variable so we can use boxen effectively
-const output = heading + // data.name + data.handle
-               newline + newline + // Add one whole blank line
-               working + newline + // data.labelWork + data.work
-               opensourcing + newline + newline + // data.labelOpenSource + data.opensource
-               twittering + newline + // data.labelTwitter + data.twitter
-               npming + newline + // data.labelnpm + data.npm
-               githubing + newline + // data.labelGitHub + data.github
-               linkedining + newline + // data.labelLinkedIn + data.linkedin
-               webing + newline + newline + // data.labelWeb + data.web
-               carding // data.labelCard + data.npx
+const working = `${label(labels.work)}  ${label(data.work)}\n`;
+const twittering = `${label(labels.twitter)}  ${primary(data.twitter)}\n`;
+const githubing = `${label(labels.gitHub)}  ${primary(data.github)}\n`;
+const linkedining = `${label(labels.linkedIn)}  ${primary(data.linkedin)}\n`;
+const webing = `${label(labels.web)}  ${primary(data.web)}\n`;
+const carding = `${label(labels.card)}  ${primary(data.npx)}\n`;
 
-fs.writeFileSync(path.join(__dirname, 'bin/output'), chalk.green(boxen(output, options)))
+// Put all our output together into a single variable
+const content =
+  working +
+  twittering +
+  githubing +
+  linkedining +
+  webing +
+  '\n' +
+  carding;
+
+fs.writeFileSync(path.join(__dirname, 'bin/output'), carden(header, content, options));
