@@ -45,14 +45,7 @@ const label = x => chalk.keyword(colors.label).bold(x);
 
 // Options for carden
 const options = {
-  borderStyle: {
-    topLeft: ' ',
-    topRight: ' ',
-    bottomLeft: ' ',
-    bottomRight: ' ',
-    horizontal: ' ',
-    vertical: ' '
-  },
+  borderStyle: 'blank',
   margin: 1,
   padding: 1,
   header: {
